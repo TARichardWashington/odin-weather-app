@@ -17,23 +17,24 @@ async function getWeather(city, units) {
 }
 
 function setWeather() {
-    theWeatherDom.textContent =
-
-        `In ${locationDom.value} the current temperature is ${currentWeather.temp} 
-    but with the wind and whatnot it feels like ${currentWeather.feels}. 
+    theWeatherDom.textContent = `In ${locationDom.value} the current temperature is ${currentWeather.temp + currentWeather.degrees} 
+    but with the wind and whatnot it feels like ${currentWeather.feels + currentWeather.degrees}. 
     If you were to ask me to describe the weather I would say ${currentWeather.description}.`;
 }
 
 function updatePage(location, unit) {
+
+    theWeatherDom.textContent = 'Loading...';
+
     getWeather(location, unit).then((result) => {
         currentWeather = {
             temp: result.main.temp,
             feels: result.main.feels_like,
-            description: result.weather[0].description
+            description: result.weather[0].description,
+            degrees: (unit === 'metric' ? 'C' : 'F')
         }
         setWeather();
     });
-
 }
 
 updatePage('Norwich', 'metric');
